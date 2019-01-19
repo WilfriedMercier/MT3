@@ -14,7 +14,7 @@ carte = hp.read_map("nom_de_la_carte")
 ## Afficher une carte
 Avec **ipython** utiliser **plt.ion()** pour le mode interactif.
 
-Pour afficher la carte:
+Pour afficher la carte avec [mollview](https://healpy.readthedocs.io/en/latest/generated/healpy.visufunc.mollview.html "page d'information"):
 
 **hp.mollview(carte, title="titre", coord=['G', 'E'], unit="unite", norm="hist", min=-1, max=1, xsize=2000)**
 
