@@ -8,7 +8,7 @@ import healpy as hp
 
 import matplotlib as plt
 
-## Ouvrir une carte Planck
+## Ouvrir une carte
 carte = hp.read_map("nom_de_la_carte")
 
 ## Afficher une carte
