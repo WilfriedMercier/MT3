@@ -16,8 +16,8 @@ Avec **ipython** utiliser **plt.ion()** pour le mode interactif.
 
 Pour afficher la carte:
 
-hp.mollview(carte, title="titre", coord=['G', 'E'], unit="unite", norm="hist", min=-1, max=1, xsize=2000)
+**hp.mollview(carte, title="titre", coord=['G', 'E'], unit="unite", norm="hist", min=-1, max=1, xsize=2000)**
 
 Pour afficher une grille par-dessus:
 
-hp.graticule()
+**hp.graticule()**
