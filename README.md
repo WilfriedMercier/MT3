@@ -15,7 +15,7 @@ import healpy as hp
 import healpy.pixelfunc as px
 
 
-#Fonctions healpy utiles
+# Fonctions healpy utiles
 
 ## Ouvrir une carte
 carte = hp.read_map("nom_de_la_carte")
@@ -31,7 +31,7 @@ Pour afficher une grille par-dessus avec [hp.graticule](https://healpy.readthedo
 
 **hp.graticule()**
 
-##Recuperer des infos sur les cartes
+## Recuperer des infos sur les cartes
 Pour avoir le nombre de pixels dans la carte avec [hp.get_map_size](https://healpy.readthedocs.io/en/latest/generated/healpy.pixelfunc.get_map_size.html#healpy.pixelfunc.get_map_size):
 
 size = hp.get_map_size(map)
@@ -44,7 +44,7 @@ Pour avoir la valeur du NSIDE pour la carte avec [px.get_nside(map)](https://hea
 
 nside = px.get_nside(map)
 
-##Degrader ou augmenter la resolution d'une carte
+## Degrader ou augmenter la resolution d'une carte
 Pour changer la resolution vers une valeur NSIDE avec [px.ud_grade](https://healpy.readthedocs.io/en/latest/generated/healpy.pixelfunc.ud_grade.html#healpy.pixelfunc.ud_grade):
 
 **newmap = px.ud_grade(map, NSIDE)**
