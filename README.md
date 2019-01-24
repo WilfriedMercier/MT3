@@ -31,7 +31,7 @@ Avec **ipython** utiliser `plt.ion()` pour le mode interactif.
 Pour afficher la carte avec [hp.mollview](https://healpy.readthedocs.io/en/latest/generated/healpy.visufunc.mollview.html "page d'information"):
 
 ```pyton
-hp.mollview(carte, title="titre", coord=['G', 'E'], unit="unite", norm="hist", min=-1, max=1, xsize=2000)**
+hp.mollview(carte, title="titre", coord=['G', 'E'], unit="unite", norm="hist", min=-1, max=1, xsize=2000)
 ```
 
 Pour afficher une grille par-dessus avec [hp.graticule](https://healpy.readthedocs.io/en/latest/generated/healpy.visufunc.graticule.html#healpy.visufunc.graticule):
@@ -50,7 +50,7 @@ size = hp.get_map_size(map)
 Pour avoir la valeur minimum du NSIDE recommandee avec [px.get_min_valid_nside](https://healpy.readthedocs.io/en/latest/generated/healpy.pixelfunc.get_min_valid_nside.html#healpy.pixelfunc.get_min_valid_nside):
 
 ```python
-min = px.get_min_valid_nside(size)
+minval = px.get_min_valid_nside(size)
 ```
 
 Pour avoir la valeur du NSIDE pour la carte avec [px.get_nside(map)](https://healpy.readthedocs.io/en/latest/generated/healpy.pixelfunc.get_nside.html#healpy.pixelfunc.get_nside):
