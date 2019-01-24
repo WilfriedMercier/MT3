@@ -6,7 +6,9 @@
 ## Librairies pour lire les cartes Planck
 Pour l'affichage:
 
+'''python
 import matplotlib as plt
+'''
 
 Pour l'utilisation des cartes
 
