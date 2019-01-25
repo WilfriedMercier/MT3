@@ -14,7 +14,7 @@ freq=[100,143,217,353,545,857]
 for i in range(len(freq)):
 
 	#Recupere la carte, le nb de pixels et le NSIDE min acceptable
-	maps = hp.read_map("/home/massonne/p1_massonne_mercier/data/HFI_256_"+str(freq[i])+".fits")
+	maps = hp.read_map("data/HFI_256_"+str(freq[i])+".fits")
 	if i==0:
 		size = hp.get_map_size(maps)
 		array_maps=np.zeros((size,len(freq)))
