@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#Nettoie les fichiers dans data
+
+rm data/*
