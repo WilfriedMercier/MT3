@@ -22,6 +22,6 @@ for i in freq:
 	newmap = px.ud_grade(map, nside)
 
 	#Ecriture nouvelle carte
-	hp.write_map("data/HFI_"+str(nside)+"_"+str(i)+".fits", newmap)
+	hp.write_map("/home/massonne/p1_massonne_mercier/data/HFI_"+str(nside)+"_"+str(i)+".fits", newmap)
 	print("Wrote "+str(i))
 
