@@ -3,6 +3,10 @@
 ## Dossier carte Planck
 /home/vbonjean/PLANCK/
 
+**WARNING** : les cartes 100-353GHz sont en unite K_CMB, les cartes 545-857GHz sont en MJy/sr.
+
+La conversion est donnee en Table 6 (p16) de l'article [Planck IX](https://arxiv.org/abs/1303.5070).
+
 ## Librairies pour lire les cartes Planck
 Pour l'affichage:
 
