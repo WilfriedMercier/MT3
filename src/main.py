@@ -13,8 +13,13 @@ freq=[100,143,217,353,545,857]
 
 for i in range(len(freq)):
 
+<<<<<<< HEAD
 	#Recupere la carte, le nb de pixels et le NSIDE min acceptable
 	maps = hp.read_map("data/HFI_256_"+str(freq[i])+".fits")
+=======
+	#Recupere la carte, et la met dans un tableau (une colonne)
+	maps = hp.read_map("data/HFI_256_"+str(freq[i])+"_convol.fits")
+>>>>>>> e0b7d5471c49aa220e47e6b1a7484c7933772d95
 	if i==0:
 		size = hp.get_map_size(maps)
 		array_maps=np.zeros((size,len(freq)))
@@ -23,20 +28,11 @@ for i in range(len(freq)):
 	else:
 		array_maps[:,i]=maps
 
-
-	#
-	#minval = px.get_min_valid_nside(size)
-	#NSIDE  = px.get_nside(map)
-
-	#Affichage
-	#print("Taille : ", size, "\nNSDIDE minimum : ", minval, "\nCurrent : ", NSIDE)
-	#hp.mollview(map, title="Reduced, freq = "+str(i) + "GHz", coord=['G', 'E'], unit="mK", norm="hist", min=-1, max=1)#, xsize=2000)
-
 print(array_maps)
 
 
 
-##Covariance
+##Covariance (qui est la moyenne de chaque valeur de chaque carte pour chaque pixel)
 
 cov_vraie=np.zeros((len(freq),len(freq)))
 
@@ -60,9 +56,11 @@ print(Var)
 CMB_unique=(array_maps.dot(weights)).T
 
 
-hp.mollview(CMB_unique[0], title="Premier CMB Elliptique", norm="hist")
+hp.mollview(CMB_unique[0], title="CMB Galactique", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(CMB_unique[0]), max=max(CMB_unique[0]))
+hp.mollview(CMB_unique[0], title="CMB Ecliptique", coord=['G','E'], unit=r"$K_{CMB}$", norm="hist", min=min(CMB_unique[0]), max=max(CMB_unique[0]))
 
-
+#Ecriture nouvelle carte
+hp.write_map("data/HFI_colbol.fits", CMB_unique[0])
 
 
 
