@@ -152,7 +152,7 @@ def showCMB(CMB_unique):
 
 #MAIN
 
-freq = [100,143] #,217,353,545,857]
+freq = [100,143, 217,353,545,857]
 sz   = len(freq)
 rgSz = np.arange(sz)		#Indices des cartes utilisees
 
@@ -188,8 +188,8 @@ for i, fr in zip(rgSz, freq):
 	array_maps[:,i] = maps
 
 #Reconstruction CMB
-#bestFit()
-a = Variance(0.0)
+bestFit()
+#a = Variance(0.0)
 CMB_unique = (normArray.dot(weights)).T
 showCMB(CMB_unique[0])
 
