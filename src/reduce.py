@@ -5,8 +5,9 @@ import matplotlib.pyplot as plt
 import healpy as hp
 import numpy as np
 import healpy.pixelfunc as px
+from sys import exit
 
-nside           = 256
+nside           = 2048
 freq            = [100,143,217,353,545,857]
 FWHM_gauss_conv = np.array([9.65,7.25,4.99,4.82,4.68,4.33])*(np.pi/(180*60))
 
@@ -20,6 +21,9 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 
 	#Recupere la carte, le nb de pixels et le NSIDE min acceptable
 	map    = hp.read_map("/home/vbonjean/PLANCK/HFI_SkyMap_"+str(i)+"_2048_R3.01_full.fits")
+	hp.mollview(map, title="CMB Galactique", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(map), max=max(map))
+	if i==100:
+		map[np.array(np.where(abs(map)>10)[0])]=0.
 	size   = hp.get_map_size(map)
 	minval = px.get_min_valid_nside(size)
 	NSIDE  = px.get_nside(map)
@@ -34,9 +38,11 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 		map=hp.sphtfunc.smoothing(map,FWHM)
 	
 	#Degradation de carte
-	#newmap = px.ud_grade(map, NSIDE)
+	newmap = px.ud_grade(map, nside)
 
 	#Ecriture nouvelle carte
-	hp.write_map("data/HFI_"+str(NSIDE)+"_"+str(i)+"_convol.fits", map)
+	hp.write_map("data/HFI_"+str(nside)+"_"+str(i)+"_convol.fits", newmap)
 	print("Wrote "+str(i))
+
+	exit()
 
