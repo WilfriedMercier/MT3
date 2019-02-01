@@ -5,6 +5,8 @@
 
 **WARNING** : les cartes 100-353GHz sont en unite K_CMB, les cartes 545-857GHz sont en MJy/sr.
 
+**WARNING** : la carte a 100GHz contient un pixel UNSEEN.
+
 La conversion est donnee en Table 6 (p16) de l'article [Planck IX](https://arxiv.org/abs/1303.5070).
 
 ## Librairies pour lire les cartes Planck
@@ -19,6 +21,39 @@ Pour l'utilisation des cartes
 ```python
 import healpy as hp
 import healpy.pixelfunc as px
+```
+
+# Ouvrir le spectre Planck
+
+## Fichier spectre Planck (fichier fits)
+
+/home/vbonjean/Planck
+
+## Librairie pour ouvrir le fichier
+
+```python
+from astropy.io import fits
+```
+
+## Ouvrir les parties basses et hautes frequences
+
+```python
+loc = "/home/vbonjean/Planck"
+lfi = fits.getdata(loc, 1) #basses frequences
+hfi = fits.getdata(loc, 7) #hautes frequences
+```
+
+## Afficher le nom des colonnes
+
+```python
+lfi.columns
+hfi.columns
+```
+
+## Afficher les spectre complet
+
+```python
+plt.plot(np.concatenate(lfi['Ell'], hfi['Ell']), np.concatenate(lfi['D_Ell'], hfi['D_Ell']))
 ```
 
 # Fonctions healpy utiles
