@@ -27,18 +27,15 @@ for i in range(len(freq)):
 ##Masque unique galaxie
 #création du masque depuis la carte ayant la plus haute fréquence (cad celle ou la galaxie est le plus visible) et application de ce dernier sur toutes les autres cartes
 
-T_gal=20.5 #a changer pour trouver la bonne valeur
+T_gal=15.5 #a changer pour trouver la bonne valeur
 masque_gal=np.copy(array_maps[:,5])
 ind_masque=np.array(np.where(masque_gal>T_gal)[0])
-#masque_gal[ind_masque]=min(array_maps[:,5])-1.
-#hp.mollview(masque_gal, title="Masque galactique", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(masque_gal), max=max(masque_gal))
-
+print(ind_masque)
+array_masque=np.copy(array_maps)
 for i in range(len(freq)):
-	array_maps[:,i][ind_masque]=min(array_maps[:,i])-0.05
+	array_masque[:,i][ind_masque]=hp.UNSEEN
 	#hp.mollview(array_maps[:,i], title="Cartes avec le meme masque", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(array_maps[:,i]), max=max(array_maps[:,i]))
 	#print(array_maps[:,i][ind_masque])
-
-
 
 #for i in ind_masque:
 #	np.delete(array_maps,(i),axis=0)
@@ -47,10 +44,10 @@ for i in range(len(freq)):
 
 cov_vraie=np.zeros((len(freq),len(freq)))
 
-test=min(array_maps[:,0])
+
 for i in range(size):
-	if array_maps[i,0]!=test:
-		cov_vraie+=np.array([array_maps[i]]).T.dot(np.array([array_maps[i]]))
+	if array_masque[i,0]!=hp.UNSEEN:
+		cov_vraie+=np.array([array_masque[i]]).T.dot(np.array([array_masque[i]]))
 		
 cov_vraie/=size
 
@@ -74,11 +71,6 @@ hp.mollview(CMB_unique[0], title="CMB Galactique", coord=['G'], unit=r"$K_{CMB}$
 
 #Ecriture nouvelle carte
 #hp.write_map("data/HFI_rien.fits", CMB_unique[0])
-
-
-
-
-
 
 
 
