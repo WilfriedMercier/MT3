@@ -73,26 +73,6 @@ hp.mollview(CMB_unique[0], title="CMB Galactique", coord=['G'], unit=r"$K_{CMB}$
 #hp.write_map("data/HFI_rien.fits", CMB_unique[0])
 
 
-f
-f
-f
-f
-f
-f
-f
-f
-f
-f
-f
-f
-f
-f
-f
-
-
-
-
-
 
 plt.show()
 
