@@ -36,16 +36,6 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 	#Degradation de carte
 	#newmap = px.ud_grade(map, NSIDE)
 
-
-
-
-
-
-
-
-
-
-
 	#Ecriture nouvelle carte
 	hp.write_map("data/HFI_"+str(NSIDE)+"_"+str(i)+"_convol.fits", map)
 	print("Wrote "+str(i))
