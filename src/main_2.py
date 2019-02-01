@@ -15,7 +15,7 @@ freq=[100,143,217,353,545,857]
 for i in range(len(freq)):
 
 	#Recupere la carte, et la met dans un tableau (une colonne)
-	maps = hp.read_map("data/HFI_256_"+str(freq[i])+"_convol.fits")
+	maps = hp.read_map("data/HFI_2048_"+str(freq[i])+"_convol.fits")
 	if i==0:
 		size = hp.get_map_size(maps)
 		array_maps=np.zeros((size,len(freq)))
@@ -24,22 +24,25 @@ for i in range(len(freq)):
 		array_maps[:,i]=maps
 
 
+
 ##Masque unique galaxie
 #création du masque depuis la carte ayant la plus haute fréquence (cad celle ou la galaxie est le plus visible) et application de ce dernier sur toutes les autres cartes
 
-T_gal=15.5 #a changer pour trouver la bonne valeur
+T_gal=0.0005*max(array_maps[:,5]) #a changer pour trouver la bonne valeur
 masque_gal=np.copy(array_maps[:,5])
 ind_masque=np.array(np.where(masque_gal>T_gal)[0])
 print(ind_masque)
 array_masque=np.copy(array_maps)
+
 for i in range(len(freq)):
 	array_masque[:,i][ind_masque]=hp.UNSEEN
 	#hp.mollview(array_maps[:,i], title="Cartes avec le meme masque", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(array_maps[:,i]), max=max(array_maps[:,i]))
 	#print(array_maps[:,i][ind_masque])
 
-#for i in ind_masque:
-#	np.delete(array_maps,(i),axis=0)
-
+hp.write_map("data/HFI_2048_convol_mask_25_percent.fits", array_masque[:,5])
+#hp.mollview(array_masque[:,5], title="Cartes avec le meme masque", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(array_masque[:,5]), max=max(array_masque[:,5]))
+#plt.show()
+#exit()
 ##Covariance (qui est la moyenne de chaque valeur de chaque carte pour chaque pixel)
 
 cov_vraie=np.zeros((len(freq),len(freq)))
@@ -70,7 +73,7 @@ hp.mollview(CMB_unique[0], title="CMB Galactique", coord=['G'], unit=r"$K_{CMB}$
 #hp.mollview(CMB_unique[0], title="CMB Ecliptique", coord=['G','E'], unit=r"$K_{CMB}$", norm="hist", min=min(CMB_unique[0]), max=max(CMB_unique[0]))
 
 #Ecriture nouvelle carte
-#hp.write_map("data/HFI_rien.fits", CMB_unique[0])
+hp.write_map("data/HFI_2048_convol.fits", CMB_unique[0])
 
 
 
