@@ -10,7 +10,7 @@ from healpy.sphtfunc import anafast
 
 ##Recup_carte
 
-cmb_maps=[]
+cmb_maps=["normalize2048"]
 
 for i in range(len(cmb_maps)):
 
