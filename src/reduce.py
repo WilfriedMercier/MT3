@@ -34,9 +34,19 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 		map=hp.sphtfunc.smoothing(map,FWHM)
 	
 	#Degradation de carte
-	newmap = px.ud_grade(map, nside)
+	#newmap = px.ud_grade(map, NSIDE)
+
+
+
+
+
+
+
+
+
+
 
 	#Ecriture nouvelle carte
-	hp.write_map("data/HFI_"+str(nside)+"_"+str(i)+".fits", newmap)
+	hp.write_map("data/HFI_"+str(NSIDE)+"_"+str(i)+"_convol.fits", map)
 	print("Wrote "+str(i))
 
