@@ -4,7 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import inv
-from scipy.optimize import minimize, differential_evolution
+from scipy.optimize import minimize_scalar, minimize, differential_evolution
 import healpy as hp
 import healpy.pixelfunc as px
 from sys import exit, argv
@@ -83,7 +83,7 @@ def normalizeGalaxy(limit, minprop):
 
 	#Normalisation de la bande centrale
 	for i in rgSz:
-		normArray[:,i] = np.where(array_maps[:,i]>=maxVal[i], array_maps[:,i]/(1000*meanIn[i])*meanOu[i], array_maps[:,i])
+		normArray[:,i] = np.where(array_maps[:,i]>=maxVal[i], array_maps[:,i]/(meanIn[i])*meanOu[i], array_maps[:,i])
 
 
 #----------------------------------------------------------------------------------------------------------------
@@ -152,7 +152,10 @@ def bestFit(guess, method):
 	if (method=="NM"):
 		minimize(Variance, guess, method="Nelder-Mead", tol=0.1)
 	elif (method=="DE"):
-		differential_evolution(Variance, bounds=[(0,1)]*sz, maxiter=10)
+		differential_evolution(Variance, bounds=[(0,0.5)]*sz, popsize=2, maxiter=1)
+	elif (method=="lbfgs"):
+		minimize(Variance, guess, method="L-BFGS-B", bounds=[(0,1)]*sz, tol=0.01, options={'maxiter':10})
+
 
 #------------
 # Affichage -
@@ -219,5 +222,5 @@ CMB_unique = (normArray.dot(weights)).T
 showCMB(CMB_unique[0])
 
 #Ecriture nouvelle carte
-#hp.write_map("data/HFI_rien.fits", CMB_unique[0])
+hp.write_map("data/HFI_normalize.fits", CMB_unique[0])
 
