@@ -50,7 +50,7 @@ lfi.columns
 hfi.columns
 ```
 
-## Afficher les spectre complet
+## Afficher le spectre complet
 
 ```python
 plt.plot(np.concatenate(lfi['Ell'], hfi['Ell']), np.concatenate(lfi['D_Ell'], hfi['D_Ell']))
