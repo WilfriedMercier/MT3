@@ -4,7 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import inv
-from scipy.optimize import minimize
+from scipy.optimize import minimize, differential_evolution
 import healpy as hp
 import healpy.pixelfunc as px
 from sys import exit
@@ -58,32 +58,35 @@ def normalizeGalaxy(limit, minprop):
 	global array_maps, normArray, weights, rgSz, sz
 
 	# Declaration tableaux utiles pour la suite
-	maxVal = np.zeros(sz)           #Valeur max de la bande centrale pour chaque carte
+	maxVal = np.zeros(3)		#Valeur max de la bande centrale pour chaque carte
 	minVal = np.copy(maxVal)        #Idem mais min
 	meanIn = np.copy(maxVal)        #Valeur moyenne de la zone galactique pour chaque carte
 	meanOu = np.copy(maxVal)        #Idem mais pour la zone extra-galactique
+	rgMax  = np.arange(3, 6)
+	rgLs   = np.arange(0, 3)
 
 	#Calcul du max de la bande centrale pour chaque carte
 	mask   = theta==0
-	for i in rgSz:
-		tmp       = array_maps[:,i]
+	for i, j in zip(rgLs, rgMax):
+		tmp       = array_maps[:, j]
 		tmp       = tmp[mask]
 		maxVal[i] = np.max(tmp)
-		minVal[i] = np.min(array_maps[:,i])
+		minVal[i] = np.min(array_maps[:, j])
 	#Pondere par le poids voulu
 	maxVal -= minprop*(maxVal-minVal)
 
 	#Calcule les valeurs moyennes dans chaque zone (galactique et hors galactique)
-	for i in rgSz:
-		tmp       = array_maps[:,i]
+	for i, j in zip(rgLs, rgMax):
+		tmp       = array_maps[:,j]
 		inside    = tmp[tmp>=maxVal[i]]
 		outside   = tmp[tmp<maxVal[i]]
 		meanIn[i] = np.sum(inside)/np.size(inside)
 		meanOu[i] = np.sum(outside)/np.size(outside)
 
+	normArray = array_maps
 	#Normalisation de la bande centrale
-	for i in rgSz:
-		normArray[:,i] = np.where(array_maps[:,i]>=maxVal[i], array_maps[:,i]/(1000*meanIn[i])*meanOu[i], array_maps[:,i])
+	for i, j in zip(rgLs, rgMax):
+		normArray[:,j] = np.where(array_maps[:,j]>=maxVal[i], array_maps[:,j]/(1000*meanIn[i])*meanOu[i], array_maps[:,j])
 
 
 #----------------------------------------------------------------------------------------------------------------
@@ -140,7 +143,8 @@ def computeWeights(cov_vraie):
 #- Determination des meilleurs parametres -
 #------------------------------------------
 def bestFit():
-	minimize(Variance, 0.1, method="Nelder-Mead", tol=0.001)
+        differential_evolution(Variance, bounds=[(0,0.3)], popsize=1, maxiter=1)
+#	minimize(Variance, 0.1, method="Nelder-Mead", tol=0.001)
 
 #------------
 # Affichage -
@@ -194,5 +198,5 @@ CMB_unique = (normArray.dot(weights)).T
 showCMB(CMB_unique[0])
 
 #Ecriture nouvelle carte
-#hp.write_map("data/HFI_rien.fits", CMB_unique[0])
+hp.write_map("data/HFI_256Norm1P.fits", CMB_unique[0])
 
