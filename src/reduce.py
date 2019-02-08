@@ -34,7 +34,7 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 	print("/home/vbonjean/PLANCK/HFI_SkyMap_" + str(i) + "_2048_R3.01_" + chemin + ".fits")
 
 	#Nettoyage professionnel
-	map[np.array(np.where(abs(map)>10)[0])]=0.
+	map[np.array(np.where(abs(map)==abs(hp.UNSEEN))[0])]=0.
 
 	hp.mollview(map, title="CMB Galactique " + str(i) + "GHz", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(map), max=max(map))
 	size   = hp.get_map_size(map)
