@@ -46,3 +46,14 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 
 	exit()
 
+
+
+aze
+q
+dsd
+s
+dfs
+df
+sd
+fsd
+f
