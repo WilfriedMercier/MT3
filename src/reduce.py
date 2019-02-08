@@ -46,15 +46,19 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 	map *= corr
 
 	#Convolution pour degrader la resolution
-	FWHM=np.sqrt(conv**2-FWHM_gauss_conv[-1]**2)
-	if i!=freq[-1]:
+	FWHM=np.sqrt(FWHM_gauss_conv[0]**2-conv**2)
+	if i!=freq[0]:
 		map=hp.sphtfunc.smoothing(map,FWHM)
 
 	#Degradation de carte
 	newmap = px.ud_grade(map, nside)
 
 	#Ecriture nouvelle carte
-	hp.write_map("data/HFI_"+str(nside)+"_" + str(i) + "_" + chemin + ".fits", newmap, overwrite=True)
+	hp.write_map("data/"+str(nside)+"/HFI_"+str(nside)+"_" + str(i) + "_" + chemin + ".fits", newmap, overwrite=True)
 	print("Wrote "+str(i))
 
 plt.show()
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf81467c5194c075f0357eeeec742ab4977fdac4
