@@ -1,5 +1,8 @@
 **Utiliser python 3 ou plus.**
 
+## References
+Pour la fenetre de pixels voir [NASA](https://healpix.jpl.nasa.gov/html/intronode14.htm).
+
 ## Dossier carte Planck
 /home/vbonjean/PLANCK/
 
