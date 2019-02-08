@@ -57,20 +57,4 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 	hp.write_map("data/HFI_"+str(nside)+"_" + str(i) + "_" + chemin + ".fits", newmap, overwrite=True)
 	print("Wrote "+str(i))
 
-<<<<<<< HEAD
-	exit()
-
-
-
-aze
-q
-dsd
-s
-dfs
-df
-sd
-fsd
-f
-=======
 plt.show()
->>>>>>> c9842b4fca2b314b1bb3b1f43ac120f592b90c7d
