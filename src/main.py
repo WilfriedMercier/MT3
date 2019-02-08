@@ -15,12 +15,6 @@ def recup_carte_et_copie(freq_cartes):
 
 	maps = hp.read_map("data/HFI_256_"+str(freq_cartes[i])+"_convol.fits")
 
-<<<<<<< HEAD
-	#Recupere la carte, et la met dans un tableau (une colonne)
-	maps = hp.read_map("data/HFI_256_"+str(freq[i])+"_convol.fits")
-
-=======
->>>>>>> cf81467c5194c075f0357eeeec742ab4977fdac4
 	if i==0:
 		size = hp.get_map_size(maps)
 		array_maps=np.zeros((size,len(freq_cartes)))
@@ -31,23 +25,12 @@ def recup_carte_et_copie(freq_cartes):
 
 	return array_maps
 
-<<<<<<< HEAD
-##Covariance (qui est la moyenne de chaque valeur de chaque carte pour chaque pixel)
-
-cov_vraie=np.zeros((len(freq),len(freq)))
-
-for i in range(size):
-	cov_vraie+=np.array([array_maps[i]]).T.dot(np.array([array_maps[i]]))
-
-cov_vraie/=size
-=======
 def covariance(donnees_cartes):
 	cov=np.zeros((len(donnees_cartes[0,:]),len(donnees_cartes[0,:])))
 	for i in range(size):
 		cov+=np.array([array_maps[i]]).T.dot(np.array([array_maps[i]]))
 		
 	cov/=len(donnees_cartes[:,0])
->>>>>>> cf81467c5194c075f0357eeeec742ab4977fdac4
 
 	return cov
 
