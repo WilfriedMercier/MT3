@@ -58,7 +58,3 @@ for i, corr, conv in zip(freq, ToCMB, FWHM_gauss_conv):
 	print("Wrote "+str(i))
 
 plt.show()
-<<<<<<< HEAD
-=======
-
->>>>>>> cf81467c5194c075f0357eeeec742ab4977fdac4
