@@ -7,50 +7,46 @@ from numpy.linalg import inv
 import healpy as hp
 import healpy.pixelfunc as px
 
-##Recup_carte
-
 freq=[100,143,217,353,545,857]
+sp_emis=[1]*len(freq) #le vecteur f_c dans MILCA qui vaut 1 pour CMB_unique
 
-for i in range(len(freq)):
+def recup_carte_et_copie(freq_cartes):
+	for i in range(len(freq_cartes)):
 
-<<<<<<< HEAD
-	#Recupere la carte, le nb de pixels et le NSIDE min acceptable
-	maps = hp.read_map("data/HFI_256_"+str(freq[i])+".fits")
-=======
-	#Recupere la carte, et la met dans un tableau (une colonne)
-	maps = hp.read_map("data/HFI_256_"+str(freq[i])+"_convol.fits")
->>>>>>> e0b7d5471c49aa220e47e6b1a7484c7933772d95
+	maps = hp.read_map("data/HFI_256_"+str(freq_cartes[i])+"_convol.fits")
+
 	if i==0:
 		size = hp.get_map_size(maps)
-		array_maps=np.zeros((size,len(freq)))
+		array_maps=np.zeros((size,len(freq_cartes)))
 		array_maps[:,0]=maps
 		print(maps)
 	else:
 		array_maps[:,i]=maps
 
-print(array_maps)
+	return array_maps
 
-
-
-##Covariance (qui est la moyenne de chaque valeur de chaque carte pour chaque pixel)
-
-cov_vraie=np.zeros((len(freq),len(freq)))
-
-for i in range(size):
-	cov_vraie+=np.array([array_maps[i]]).T.dot(np.array([array_maps[i]]))
+def covariance(donnees_cartes):
+	cov=np.zeros((len(donnees_cartes[0,:]),len(donnees_cartes[0,:])))
+	for i in range(size):
+		cov+=np.array([array_maps[i]]).T.dot(np.array([array_maps[i]]))
 		
-cov_vraie/=size
+	cov/=len(donnees_cartes[:,0])
+
+	return cov
+
+def poids(f_c,cov):
+	weights=inv(cov).dot(np.array([f_c]).T).dot(inv(np.array([f_c]).dot(inv(cov)).dot((np.array([f_c]).T))))
+
+	return weights
 
 
+###
 
-##Weights
+array_maps = recup_carte_et_copie(freq)
+cov = covariance(array_maps)
+weights = poids(sp_emis,cov)
 
-sp_emis=[1]*len(freq) #le vecteur f_c dans MILCA qui vaut 1 pour CMB_unique
-
-weights=inv(cov_vraie).dot(np.array([sp_emis]).T).dot(inv(np.array([sp_emis]).dot(inv(cov_vraie)).dot((np.array([sp_emis]).T))))
-print(np.shape(weights))
-
-Var=weights.T.dot(cov_vraie).dot(weights)
+Var=weights.T.dot(cov).dot(weights)
 print(Var)
 
 CMB_unique=(array_maps.dot(weights)).T
