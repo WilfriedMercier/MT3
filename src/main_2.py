@@ -54,7 +54,7 @@ def poids(f_c,cov):
 	return weights
 
 
-def masque(donnees_cartes,chemin,voir_masque=True):
+def masque(donnees_cartes,chemin,voir_masque=False):
 	#création du masque depuis la carte ayant la plus haute fréquence (cad celle ou la galaxie est le plus visible) et application de ce dernier sur toutes les autres cartes
 
 	T_gal=0.0005*max(donnees_cartes[:,5]) #a changer pour trouver la bonne valeur
@@ -68,17 +68,16 @@ def masque(donnees_cartes,chemin,voir_masque=True):
 		#hp.mollview(array_maps[:,i], title="Cartes avec le meme masque", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(array_maps[:,i]), max=max(array_maps[:,i]))
 		#print(array_maps[:,i][ind_masque])
 
-	#hp.write_map("data/"+str(nside)+"/HFI_"+str(nside)+"_"+chemin+"_mask_"+str(np.around(len(ind_masque)/len(array_masque[:,0]),2))+"_percent.fits", array_masque[:,5])
-	hp.mollview(array_masque[:,5], title="Cartes avec le meme masque", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(array_masque[:,5]), max=max(array_masque[:,5]))
-	plt.show()
-	exit()
+	hp.write_map("data/"+str(nside)+"/HFI_"+str(nside)+"_"+chemin+"_mask_"+str(np.around(len(ind_masque)/len(array_masque[:,0]),3))+"_percent.fits", array_masque[:,5])
+	#hp.mollview(array_masque[:,5], title="Cartes avec le meme masque", coord=['G'], unit=r"$K_{CMB}$", norm="hist", min=min(array_masque[:,5]), max=max(array_masque[:,5]))
+	#plt.show()
+	#exit()
 
 	return array_masque
 
-
 ###
 
-chemin="full"
+chemin="halfmission-2"
 array_maps = recup_carte_et_copie(freq,chemin)
 array_masque = masque(array_maps,chemin)
 cov = covariance(array_masque)
@@ -95,7 +94,7 @@ hp.mollview(CMB_unique[0], title="CMB Galactique", coord=['G'], unit=r"$K_{CMB}$
 #hp.mollview(CMB_unique[0], title="CMB Ecliptique", coord=['G','E'], unit=r"$K_{CMB}$", norm="hist", min=min(CMB_unique[0]), max=max(CMB_unique[0]))
 
 #Ecriture nouvelle carte
-hp.write_map("data/"+str(nside)+"/HFI_"+str(nside)+"_"+chemin+"_nomask.fits", CMB_unique[0])
+hp.write_map("data/"+str(nside)+"/HFI_"+str(nside)+"_"+chemin+".fits", CMB_unique[0])
 
 
 
