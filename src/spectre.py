@@ -8,6 +8,18 @@ from sys import exit, argv
 from numpy.linalg import inv
 from healpy.sphtfunc import anafast, pixwin, gauss_beam
 
+
+Gauss_sq = gauss_beam(9.65*np.pi/(180*60),lmax=2500)**2
+Gauss_sq2 = gauss_beam(4.33*np.pi/(180*60),lmax=2500)**2
+
+
+plt.plot(Gauss_sq, ".")
+plt.plot(Gauss_sq2, ".")
+plt.legend()
+
+plt.show()
+exit()
+
 nside = 2048
 '''
 taille = len(argv)
@@ -25,14 +37,14 @@ chemin1 = "halfmission-1"
 chemin2 = "halfmission-2"
 cmb_maps = [str(nside)+"_"+chemin0,str(nside)+"_"+chemin1,str(nside)+"_"+chemin2]
 pourcentage = 0.211 #a completer
-map_masque = hp.read_map("data/"+str(nside)+"/HFI_"+str(nside)+"_"+chemin2+"_mask_"+str(pourcentage)+"_percent.fits")
+map_masque = hp.read_map("data/"+str(nside)+"/HFI_"+str(nside)+"_"+chemin0+"_mask_"+str(pourcentage)+"_percent.fits")
 ind_masque = np.array(np.where(map_masque==hp.UNSEEN)[0])
 
 
 for i in range(len(cmb_maps)):
 
 	#Recupere la carte, et la met dans un tableau (une colonne)
-	maps = hp.read_map("data/" + str(nside)+"/HFI_" + str(cmb_maps[i]) + ".fits")
+	maps = hp.read_map("data/" + str(nside)+"/HFI_" + str(cmb_maps[i]) + "_M" + str(int(1000*pourcentage)) + ".fits")
 
 	if i==0:
 		size = hp.get_map_size(maps)
@@ -60,7 +72,141 @@ CL_WN = anafast(array_white_noise,lmax=2500)#4*nside)
 CL_cross = anafast(array_masque[0,:],map2=array_white_noise,lmax=2500)#4*nside)
 Pix = pixwin(nside)
 Pix = Pix[0:2501]
-Gauss_sq = gauss_beam(4.33*np.pi/(180*60),lmax=2500)**2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Gauss_sq = gauss_beam(9.65*np.pi/(180*60),lmax=2500)**2
+
+plt.plot(Gauss_sq, ".")
+plt.show()
+exit()
+
 CL_vrai = CL_CMB / (Pix**2*Gauss_sq*(1-pourcentage)) - CL_WN / (Pix**2) - 2*CL_cross / (Pix)
 l=np.arange(len(CL_vrai))
 
@@ -73,11 +219,11 @@ ax.tick_params(which='both', direction='in', labelsize=13)
 
 plt.plot(l, CL_vrai*(l*(l+1))/(2*np.pi), '*', label="CMB_Power_Spectrum")
 
-plt.title("NSIDE=2048 et masque de 35%")
+plt.title("NSIDE=2048 et masque de " + str(round(100*pourcentage, 1)) + "%")
 plt.xlabel("l", size=18)
 plt.ylabel(r'$C_l l(l+1)/(2\pi)$', size=18)
 plt.grid()
 plt.legend(loc='best', fontsize=13)
 plt.show()
 
-hp.write_cl("data/spectre/spectreCMB_2048_M035.fits", CL_vrai, overwrite=False)
+hp.write_cl("data/spectre/spectreCMB_2048_M" + str(int(1000*pourcentage)) + ".fits", CL_vrai, overwrite=False)
